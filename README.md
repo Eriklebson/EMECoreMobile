@@ -181,6 +181,14 @@ Dark theme inspirado no Steam:
 
 ---
 
+## Versao
+
+| Versao | Data | Mudanca |
+|--------|------|---------|
+| 1.0.0 | 17/07/2026 | Lancamento inicial — WebSocket client, auto-discovery UDP, monitor de hardware, biblioteca de jogos com capas Steam/Twitch, lancamento remoto, conquistas com progresso, dark theme Steam, conexao manual como fallback |
+
+---
+
 ## Autor
 
 **Eriklebson** — [GitHub](https://github.com/Eriklebson)
