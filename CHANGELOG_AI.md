@@ -4,6 +4,23 @@ Relatório de desenvolvimento gerado por IA para o projeto EMECoreMobile.
 
 ---
 
+## v1.0.1 — 18/07/2026
+
+### Arquivos modificados
+- `android/app/src/main/AndroidManifest.xml` — Adicionado networkSecurityConfig e usesCleartextTraffic
+- `android/app/src/main/res/xml/network_security_config.xml` — Novo: permite HTTP cleartext
+
+### O que mudou
+- Criado `network_security_config.xml` permitindo HTTP cleartext para redes locais
+- Adicionado `android:networkSecurityConfig` e `android:usesCleartextTraffic="true"` no AndroidManifest
+- Corrige problema onde Android bloqueava downloads de capas via HTTP do image server do PC
+
+### Bug corrigido
+- Capas de jogos não apareciam no app — Android bloqueava conexões HTTP para o servidor de imagens local (porta 8183)
+- Causa: Android 9+ bloqueia HTTP cleartext por padrão. Sem network_security_config, o app não podia acessar `http://192.168.x.x:8183/`
+
+---
+
 ## v1.0.0 — 17/07/2026
 
 ### Arquivos modificados
