@@ -185,6 +185,8 @@ Dark theme inspirado no Steam:
 
 | Versao | Data | Mudanca |
 |--------|------|---------|
+| 1.0.2 | 18/07/2026 | Timer periodico de 1s para hardware monitor em tempo real, correcao de dados RAM/rede aparecendo e sumindo |
+| 1.0.1 | 18/07/2026 | HTTP cleartext para redes locais (network_security_config.xml), correcao de capas nao baixando via HTTP |
 | 1.0.0 | 17/07/2026 | Lancamento inicial — WebSocket client, auto-discovery UDP, monitor de hardware, biblioteca de jogos com capas Steam/Twitch, lancamento remoto, conquistas com progresso, dark theme Steam, conexao manual como fallback |
 
 ---

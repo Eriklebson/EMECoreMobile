@@ -16,6 +16,7 @@ class HardwarePage extends StatefulWidget {
 class _HardwarePageState extends State<HardwarePage> {
   HardwareStats? _stats;
   late StreamSubscription _sub;
+  Timer? _refreshTimer;
 
   @override
   void initState() {
@@ -23,11 +24,21 @@ class _HardwarePageState extends State<HardwarePage> {
     _sub = widget.wsService.hardwareStats.listen((s) {
       if (mounted) setState(() => _stats = s);
     });
+    _startPeriodicRefresh();
+  }
+
+  void _startPeriodicRefresh() {
     widget.wsService.requestHardwareStats();
+    _refreshTimer = Timer.periodic(const Duration(seconds: 1), (_) {
+      if (mounted && widget.wsService.currentStatus == ConnectionStatus.connected) {
+        widget.wsService.requestHardwareStats();
+      }
+    });
   }
 
   @override
   void dispose() {
+    _refreshTimer?.cancel();
     _sub.cancel();
     super.dispose();
   }

@@ -4,6 +4,20 @@ Relatório de desenvolvimento gerado por IA para o projeto EMECoreMobile.
 
 ---
 
+## v1.0.2 — 18/07/2026
+
+### Arquivos modificados
+- `lib/pages/hardware_page.dart` — Timer periodico de 1s para atualizacao de hardware
+
+### O que mudou
+- Adicionado `Timer.periodic` de 1 segundo que solicita `get_hardware` continuamente enquanto a aba Hardware esta aberta
+- Antes: dados eram solicitados apenas uma vez na abertura da pagina,resultando em dados estaticos
+
+### Bug corrigido
+- Hardware monitor nao atualizava em tempo real — so mostrava dados da primeira leitura
+
+---
+
 ## v1.0.1 — 18/07/2026
 
 ### Arquivos modificados
