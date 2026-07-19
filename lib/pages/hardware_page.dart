@@ -72,6 +72,10 @@ class _HardwarePageState extends State<HardwarePage> {
           _buildNetworkCard(s.network),
           const SizedBox(height: 8),
           _buildMotherboardCard(s.motherboard),
+          if (s.fans.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            _buildFansCard(s.fans),
+          ],
         ],
       ),
     );
@@ -225,6 +229,45 @@ class _HardwarePageState extends State<HardwarePage> {
           if (mb.biosVersion.isNotEmpty)
             _detailRow('BIOS', mb.biosVersion),
         ],
+      ),
+    );
+  }
+
+  Widget _buildFansCard(List<FanInfo> fans) {
+    return _card(
+      title: 'Fans',
+      icon: Icons.air,
+      color: AppColors.net,
+      child: Column(
+        children: fans.map((fan) => Padding(
+          padding: const EdgeInsets.only(bottom: 6),
+          child: Row(
+            children: [
+              Expanded(
+                flex: 3,
+                child: Text(
+                  fan.name,
+                  style: const TextStyle(color: AppColors.fg, fontSize: 11),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Icon(Icons.sync, color: AppColors.net, size: 12),
+                    const SizedBox(width: 3),
+                    Text(
+                      '${fan.rpm.toStringAsFixed(0)} RPM',
+                      style: const TextStyle(color: AppColors.net, fontSize: 11, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        )).toList(),
       ),
     );
   }

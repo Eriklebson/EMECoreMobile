@@ -6,6 +6,7 @@ class HardwareStats {
   final DiskStats disk;
   final NetworkStats network;
   final MotherboardStats motherboard;
+  final List<FanInfo> fans;
   final int timestamp;
 
   HardwareStats({
@@ -16,6 +17,7 @@ class HardwareStats {
     required this.disk,
     required this.network,
     required this.motherboard,
+    required this.fans,
     required this.timestamp,
   });
 
@@ -29,6 +31,7 @@ class HardwareStats {
       disk: DiskStats.fromJson(data['disk'] ?? {}),
       network: NetworkStats.fromJson(data['network'] ?? {}),
       motherboard: MotherboardStats.fromJson(data['motherboard'] ?? {}),
+      fans: (data['fans'] as List?)?.map((f) => FanInfo.fromJson(f)).toList() ?? [],
       timestamp: json['timestamp'] ?? 0,
     );
   }
@@ -224,5 +227,23 @@ class MotherboardStats {
         model: json['model'] ?? 'N/A',
         temp: (json['temp'] ?? 0).toDouble(),
         biosVersion: json['biosVersion'] ?? '',
+      );
+}
+
+class FanInfo {
+  final String name;
+  final double rpm;
+  final double dutyPercent;
+
+  FanInfo({
+    required this.name,
+    required this.rpm,
+    required this.dutyPercent,
+  });
+
+  factory FanInfo.fromJson(Map<String, dynamic> json) => FanInfo(
+        name: json['name'] ?? '',
+        rpm: (json['rpm'] ?? 0).toDouble(),
+        dutyPercent: (json['dutyPercent'] ?? 0).toDouble(),
       );
 }
