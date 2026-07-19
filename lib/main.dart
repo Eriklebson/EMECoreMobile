@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'theme/app_colors.dart';
 import 'services/websocket_service.dart';
 import 'pages/connection_page.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: Color(0xFF1B2838),
+    statusBarColor: AppColors.card,
     statusBarIconBrightness: Brightness.light,
-    systemNavigationBarColor: Color(0xFF1B2838),
+    systemNavigationBarColor: AppColors.card,
     systemNavigationBarIconBrightness: Brightness.light,
   ));
   runApp(const EMECoreMobileApp());
@@ -38,13 +39,13 @@ class _EMECoreMobileAppState extends State<EMECoreMobileApp> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
-        scaffoldBackgroundColor: const Color(0xFF161719),
+        scaffoldBackgroundColor: AppColors.bg,
         colorScheme: const ColorScheme.dark(
-          primary: Color(0xFF66C0F4),
-          surface: Color(0xFF1B2838),
+          primary: AppColors.pri,
+          surface: AppColors.card,
         ),
         cardTheme: CardThemeData(
-          color: const Color(0xFF1B2838),
+          color: AppColors.card,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         ),
       ),

@@ -168,16 +168,18 @@ O desktop envia broadcast UDP a cada 2 segundos:
 
 ## Tema
 
-Dark theme inspirado no Steam:
+Dark theme alinhado com EMECore Desktop:
 
 | Elemento | Cor |
 |----------|-----|
-| Background | `#161719` |
-| Surface/Cards | `#1B2838` |
-| Accent | `#66C0F4` |
-| Border | `#2A475E` |
-| Text Muted | `#8F98A0` |
-| Error | `#D94040` |
+| Background | `#0A0B0D` |
+| Sidebar | `#161719` |
+| Surface/Cards | `#2A2D31` |
+| Accent | `#4CCBA0` |
+| Text Primary | `#E8E9EB` |
+| Text Muted | `#A8ABB0` |
+| Warning | `#E6A030` |
+| Error | `#E84D4D` |
 
 ---
 
@@ -185,6 +187,7 @@ Dark theme inspirado no Steam:
 
 | Versao | Data | Mudanca |
 |--------|------|---------|
+| 1.1.0 | 18/07/2026 | Paleta de cores alinhada com EMECore Desktop (Design.cs + MonitorWindow.cs), cores centralizadas em AppColors |
 | 1.0.2 | 18/07/2026 | Timer periodico de 1s para hardware monitor em tempo real, correcao de dados RAM/rede aparecendo e sumindo |
 | 1.0.1 | 18/07/2026 | HTTP cleartext para redes locais (network_security_config.xml), correcao de capas nao baixando via HTTP |
 | 1.0.0 | 17/07/2026 | Lancamento inicial — WebSocket client, auto-discovery UDP, monitor de hardware, biblioteca de jogos com capas Steam/Twitch, lancamento remoto, conquistas com progresso, dark theme Steam, conexao manual como fallback |

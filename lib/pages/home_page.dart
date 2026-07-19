@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../services/websocket_service.dart';
+import '../theme/app_colors.dart';
 import 'hardware_page.dart';
 import 'games_page.dart';
 import 'connection_page.dart';
@@ -46,17 +47,17 @@ class _HomePageState extends State<HomePage> {
         if (didPop) widget.wsService.disconnect();
       },
       child: Scaffold(
-        backgroundColor: const Color(0xFF161719),
+        backgroundColor: AppColors.bg,
         appBar: AppBar(
-          backgroundColor: const Color(0xFF1B2838),
+          backgroundColor: AppColors.card,
           title: const Text(
             'E.M.E Core',
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+            style: TextStyle(color: AppColors.fg, fontWeight: FontWeight.bold),
           ),
           centerTitle: true,
           actions: [
             IconButton(
-              icon: const Icon(Icons.refresh, color: Color(0xFF66C0F4)),
+              icon: const Icon(Icons.refresh, color: AppColors.pri),
               onPressed: () {
                 if (_currentIndex == 0) {
                   widget.wsService.requestHardwareStats();
@@ -66,7 +67,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             IconButton(
-              icon: const Icon(Icons.power_settings_new, color: Color(0xFFD94040)),
+              icon: const Icon(Icons.power_settings_new, color: AppColors.danger),
               onPressed: () {
                 widget.wsService.disconnect();
               },
@@ -79,9 +80,9 @@ class _HomePageState extends State<HomePage> {
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (i) => setState(() => _currentIndex = i),
-          backgroundColor: const Color(0xFF1B2838),
-          selectedItemColor: const Color(0xFF66C0F4),
-          unselectedItemColor: const Color(0xFF8F98A0),
+          backgroundColor: AppColors.card,
+          selectedItemColor: AppColors.pri,
+          unselectedItemColor: AppColors.muted,
           items: const [
             BottomNavigationBarItem(icon: Icon(Icons.memory), label: 'Hardware'),
             BottomNavigationBarItem(icon: Icon(Icons.games), label: 'Jogos'),

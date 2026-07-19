@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../models/game.dart';
-import '../models/achievement.dart';
 import '../services/websocket_service.dart';
+import '../theme/app_colors.dart';
 import 'game_detail_page.dart';
 
 class GamesPage extends StatefulWidget {
@@ -49,13 +49,13 @@ class _GamesPageState extends State<GamesPage> {
         Padding(
           padding: const EdgeInsets.fromLTRB(12, 12, 12, 8),
           child: TextField(
-            style: const TextStyle(color: Colors.white, fontSize: 13),
+            style: const TextStyle(color: AppColors.fg, fontSize: 13),
             decoration: InputDecoration(
               hintText: 'Buscar jogos...',
-              hintStyle: const TextStyle(color: Color(0xFF8F98A0)),
-              prefixIcon: const Icon(Icons.search, color: Color(0xFF8F98A0), size: 18),
+              hintStyle: const TextStyle(color: AppColors.muted),
+              prefixIcon: const Icon(Icons.search, color: AppColors.muted, size: 18),
               filled: true,
-              fillColor: const Color(0xFF1B2838),
+              fillColor: AppColors.card,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8),
                 borderSide: BorderSide.none,
@@ -76,10 +76,10 @@ class _GamesPageState extends State<GamesPage> {
                       child: ChoiceChip(
                         label: Text(f, style: const TextStyle(fontSize: 12)),
                         selected: _filter == f,
-                        selectedColor: const Color(0xFF66C0F4),
-                        backgroundColor: const Color(0xFF1B2838),
+                        selectedColor: AppColors.pri,
+                        backgroundColor: AppColors.card,
                         labelStyle: TextStyle(
-                          color: _filter == f ? Colors.white : const Color(0xFF8F98A0),
+                          color: _filter == f ? AppColors.fg : AppColors.muted,
                         ),
                         onSelected: (_) => setState(() => _filter = f),
                       ),
@@ -91,7 +91,7 @@ class _GamesPageState extends State<GamesPage> {
         Expanded(
           child: filtered.isEmpty
               ? const Center(
-                  child: Text('Nenhum jogo encontrado', style: TextStyle(color: Color(0xFF8F98A0))),
+                  child: Text('Nenhum jogo encontrado', style: TextStyle(color: AppColors.muted)),
                 )
               : GridView.builder(
                   padding: const EdgeInsets.all(12),
@@ -119,7 +119,7 @@ class _GamesPageState extends State<GamesPage> {
       ),
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFF1B2838),
+          color: AppColors.card,
           borderRadius: BorderRadius.circular(10),
         ),
         clipBehavior: Clip.antiAlias,
@@ -133,13 +133,13 @@ class _GamesPageState extends State<GamesPage> {
                       game.coverImage,
                       fit: BoxFit.cover,
                       errorBuilder: (_, __, ___) => Container(
-                        color: const Color(0xFF2A475E),
-                        child: const Icon(Icons.gamepad, color: Color(0xFF8F98A0), size: 40),
+                        color: AppColors.sec,
+                        child: const Icon(Icons.gamepad, color: AppColors.muted, size: 40),
                       ),
                     )
                   : Container(
-                      color: const Color(0xFF2A475E),
-                      child: const Icon(Icons.gamepad, color: Color(0xFF8F98A0), size: 40),
+                      color: AppColors.sec,
+                      child: const Icon(Icons.gamepad, color: AppColors.muted, size: 40),
                     ),
             ),
             Expanded(
@@ -151,7 +151,7 @@ class _GamesPageState extends State<GamesPage> {
                   children: [
                     Text(
                       game.name,
-                      style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                      style: const TextStyle(color: AppColors.fg, fontSize: 12, fontWeight: FontWeight.bold),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -166,13 +166,13 @@ class _GamesPageState extends State<GamesPage> {
                           ),
                           child: Text(
                             game.platformBadge,
-                            style: const TextStyle(color: Colors.white, fontSize: 9),
+                            style: const TextStyle(color: AppColors.fg, fontSize: 9),
                           ),
                         ),
                         const Spacer(),
                         Text(
                           game.playTimeFormatted,
-                          style: const TextStyle(color: Color(0xFF8F98A0), fontSize: 10),
+                          style: const TextStyle(color: AppColors.muted, fontSize: 10),
                         ),
                       ],
                     ),
@@ -189,11 +189,11 @@ class _GamesPageState extends State<GamesPage> {
   Color _platformColor(String platform) {
     switch (platform.toLowerCase()) {
       case 'steam':
-        return const Color(0xFF1B2838);
+        return AppColors.steamBg;
       case 'xbox':
-        return const Color(0xFF107C10);
+        return AppColors.xboxBg;
       default:
-        return const Color(0xFF66C0F4);
+        return AppColors.pri10;
     }
   }
 }

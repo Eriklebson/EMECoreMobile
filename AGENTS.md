@@ -159,16 +159,28 @@ O README deve sempre refletir o status atual do projeto:
 
 Manter a identidade visual atual.
 
-**Tema:** Dark theme inspirado no Steam.
+**Tema:** Dark theme alinhado com EMECore Desktop (Design.cs).
 
 | Elemento | Cor |
 |----------|-----|
-| Background | `#161719` |
-| Surface/Cards | `#1B2838` |
-| Accent | `#66C0F4` |
-| Border | `#2A475E` |
-| Text Muted | `#8F98A0` |
-| Error | `#D94040` |
+| Background | `#0A0B0D` |
+| Sidebar | `#161719` |
+| Surface/Cards | `#2A2D31` |
+| Inset | `#1B1D22` |
+| Accent (Primary) | `#4CCBA0` |
+| Text Primary | `#E8E9EB` |
+| Text Muted | `#A8ABB0` |
+| Secondary Surface | `#3A3D43` |
+| Border | `#FFFFFF` @ 6% |
+| Warning | `#E6A030` |
+| Danger/Error | `#E84D4D` |
+| CPU Card | `#4ADE80` |
+| GPU Card | `#60A5FA` |
+| RAM Card | `#C084FC` |
+| FPS Card | `#FB923C` |
+| Disk Card | `#FBBF24` |
+| Network Card | `#34D399` |
+| Motherboard Card | `#F472B6` |
 
 Não redesenhar a interface a menos que solicitado explicitamente.
 

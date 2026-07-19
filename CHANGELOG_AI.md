@@ -4,6 +4,29 @@ Relatório de desenvolvimento gerado por IA para o projeto EMECoreMobile.
 
 ---
 
+## v1.1.0 — 18/07/2026
+
+### Arquivos modificados
+- `lib/theme/app_colors.dart` — Novo: paleta de cores centralizada alinhada com EMECore Desktop
+- `lib/main.dart` — Tema atualizado com AppColors
+- `lib/pages/hardware_page.dart` — Cores de cards (CPU/GPU/RAM/FPS/Disco/Rede/MB) do MonitorWindow
+- `lib/pages/home_page.dart` — App bar e bottom nav com novas cores
+- `lib/pages/connection_page.dart` — Tela de conexao com novas cores
+- `lib/pages/games_page.dart` — Grid de jogos com novas cores
+- `lib/pages/game_detail_page.dart` — Detalhe do jogo com novas cores
+- `AGENTS.md` — Tabela de cores atualizada
+- `README.md` — Tabela de cores atualizada
+
+### O que mudou
+- Paleta de cores agora espelha exatamente o EMECore Desktop (Design.cs + MonitorWindow.cs)
+- Background: `#161719` → `#0A0B0D`
+- Cards: `#1B2838` → `#2A2D31`
+- Accent: `#66C0F4` → `#4CCBA0` (teal-green)
+- Cores de hardware cards: CPU `#4ADE80`, GPU `#60A5FA`, RAM `#C084FC`, FPS `#FB923C`, Disco `#FBBF24`, Rede `#34D399`, MB `#F472B6`
+- Todas as cores hardcoded substituidas por AppColors centralizado
+
+---
+
 ## v1.0.2 — 18/07/2026
 
 ### Arquivos modificados

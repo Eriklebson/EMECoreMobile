@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../models/hardware_stats.dart';
 import '../services/websocket_service.dart';
+import '../theme/app_colors.dart';
 
 class HardwarePage extends StatefulWidget {
   final WebSocketService wsService;
@@ -47,14 +48,14 @@ class _HardwarePageState extends State<HardwarePage> {
   Widget build(BuildContext context) {
     if (_stats == null) {
       return const Center(
-        child: CircularProgressIndicator(color: Color(0xFF66C0F4)),
+        child: CircularProgressIndicator(color: AppColors.pri),
       );
     }
     final s = _stats!;
     return RefreshIndicator(
       onRefresh: () async => widget.wsService.requestHardwareStats(),
-      color: const Color(0xFF66C0F4),
-      backgroundColor: const Color(0xFF1B2838),
+      color: AppColors.pri,
+      backgroundColor: AppColors.card,
       child: ListView(
         padding: const EdgeInsets.all(12),
         children: [
@@ -80,12 +81,12 @@ class _HardwarePageState extends State<HardwarePage> {
     return _card(
       title: 'CPU',
       icon: Icons.memory,
-      color: const Color(0xFF66C0F4),
+      color: AppColors.cpu,
       child: Column(
         children: [
-          Text(cpu.model, style: const TextStyle(color: Colors.white, fontSize: 13)),
+          Text(cpu.model, style: const TextStyle(color: AppColors.fg, fontSize: 13)),
           const SizedBox(height: 8),
-          _meter('Uso', cpu.usage, '%', const Color(0xFF66C0F4)),
+          _meter('Uso', cpu.usage, '%', AppColors.cpu),
           _meter('Temp', cpu.temp, '°C', _tempColor(cpu.temp)),
           _detailRow('Voltagem', '${cpu.voltage.toStringAsFixed(3)} V'),
           _detailRow('Potencia', '${cpu.power.toStringAsFixed(1)} W'),
@@ -98,12 +99,12 @@ class _HardwarePageState extends State<HardwarePage> {
     return _card(
       title: 'GPU',
       icon: Icons.videocam,
-      color: const Color(0xFF7BC67E),
+      color: AppColors.gpu,
       child: Column(
         children: [
-          Text(gpu.model, style: const TextStyle(color: Colors.white, fontSize: 13)),
+          Text(gpu.model, style: const TextStyle(color: AppColors.fg, fontSize: 13)),
           const SizedBox(height: 8),
-          _meter('Uso', gpu.usage, '%', const Color(0xFF7BC67E)),
+          _meter('Uso', gpu.usage, '%', AppColors.gpu),
           _meter('Temp', gpu.temp, '°C', _tempColor(gpu.temp)),
           if (gpu.hotspotTemp > 0)
             _detailRow('Hotspot', '${gpu.hotspotTemp.toStringAsFixed(0)}°C'),
@@ -122,16 +123,16 @@ class _HardwarePageState extends State<HardwarePage> {
     return _card(
       title: 'RAM',
       icon: Icons.sd_card,
-      color: const Color(0xFFE8A735),
+      color: AppColors.ram,
       child: Column(
         children: [
-          if (ram.totalGb > 0) _meter('Uso', ram.percent, '%', const Color(0xFFE8A735)),
+          if (ram.totalGb > 0) _meter('Uso', ram.percent, '%', AppColors.ram),
           if (ram.totalGb > 0)
             _detailRow('Usado', '${ram.usedGb.toStringAsFixed(1)} / ${ram.totalGb.toStringAsFixed(1)} GB'),
           if (ram.model.isNotEmpty)
-            Text(ram.model, style: const TextStyle(color: Color(0xFF8F98A0), fontSize: 11)),
+            Text(ram.model, style: const TextStyle(color: AppColors.muted, fontSize: 11)),
           if (ram.totalGb == 0)
-            const Text('Dados indisponiveis', style: TextStyle(color: Color(0xFF8F98A0), fontSize: 12)),
+            const Text('Dados indisponiveis', style: TextStyle(color: AppColors.muted, fontSize: 12)),
         ],
       ),
     );
@@ -141,7 +142,7 @@ class _HardwarePageState extends State<HardwarePage> {
     return _card(
       title: 'FPS',
       icon: Icons.speed,
-      color: const Color(0xFFB894E8),
+      color: AppColors.fps,
       child: Column(
         children: [
           if (fps.source != 'Off')
@@ -151,14 +152,14 @@ class _HardwarePageState extends State<HardwarePage> {
                 Text(
                   '${fps.current}',
                   style: const TextStyle(
-                    color: Colors.white,
+                    color: AppColors.fg,
                     fontSize: 36,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const Text(
                   ' FPS',
-                  style: TextStyle(color: Color(0xFF8F98A0), fontSize: 14),
+                  style: TextStyle(color: AppColors.muted, fontSize: 14),
                 ),
               ],
             ),
@@ -173,7 +174,7 @@ class _HardwarePageState extends State<HardwarePage> {
           if (fps.source == 'Off')
             const Text(
               'Overlay desligado',
-              style: TextStyle(color: Color(0xFF8F98A0), fontSize: 12),
+              style: TextStyle(color: AppColors.muted, fontSize: 12),
             ),
         ],
       ),
@@ -184,13 +185,13 @@ class _HardwarePageState extends State<HardwarePage> {
     return _card(
       title: 'Disco',
       icon: Icons.storage,
-      color: const Color(0xFFB894E8),
+      color: AppColors.disk,
       child: Column(
         children: [
           _detailRow('Leitura', '${_formatSpeed(disk.readKbps)}'),
           _detailRow('Escrita', '${_formatSpeed(disk.writeKbps)}'),
           if (disk.usagePercent > 0)
-            _meter('Uso', disk.usagePercent, '%', const Color(0xFFB894E8)),
+            _meter('Uso', disk.usagePercent, '%', AppColors.disk),
         ],
       ),
     );
@@ -200,13 +201,13 @@ class _HardwarePageState extends State<HardwarePage> {
     return _card(
       title: 'Rede',
       icon: Icons.wifi,
-      color: const Color(0xFF7BC67E),
+      color: AppColors.net,
       child: Column(
         children: [
           _detailRow('Download', '${_formatSpeed(net.downloadSpeed)}'),
           _detailRow('Upload', '${_formatSpeed(net.uploadSpeed)}'),
           if (net.name.isNotEmpty)
-            Text(net.name, style: const TextStyle(color: Color(0xFF8F98A0), fontSize: 11)),
+            Text(net.name, style: const TextStyle(color: AppColors.muted, fontSize: 11)),
         ],
       ),
     );
@@ -216,10 +217,10 @@ class _HardwarePageState extends State<HardwarePage> {
     return _card(
       title: 'Placa Mae',
       icon: Icons.developer_board,
-      color: const Color(0xFF8F98A0),
+      color: AppColors.mb,
       child: Column(
         children: [
-          Text(mb.model, style: const TextStyle(color: Colors.white, fontSize: 13)),
+          Text(mb.model, style: const TextStyle(color: AppColors.fg, fontSize: 13)),
           if (mb.temp > 0) _detailRow('Temp', '${mb.temp.toStringAsFixed(0)}°C'),
           if (mb.biosVersion.isNotEmpty)
             _detailRow('BIOS', mb.biosVersion),
@@ -234,9 +235,9 @@ class _HardwarePageState extends State<HardwarePage> {
   }
 
   Color _tempColor(double temp) {
-    if (temp >= 80) return const Color(0xFFD94040);
-    if (temp >= 65) return const Color(0xFFE8A735);
-    return const Color(0xFF7BC67E);
+    if (temp >= 80) return AppColors.danger;
+    if (temp >= 65) return AppColors.warn;
+    return AppColors.cpu;
   }
 
   Widget _card({
@@ -248,7 +249,7 @@ class _HardwarePageState extends State<HardwarePage> {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: const Color(0xFF1B2838),
+        color: AppColors.card,
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
@@ -285,10 +286,10 @@ class _HardwarePageState extends State<HardwarePage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(label, style: const TextStyle(color: Color(0xFF8F98A0), fontSize: 11)),
+              Text(label, style: const TextStyle(color: AppColors.muted, fontSize: 11)),
               Text(
                 unit == '%' ? '${value.toStringAsFixed(1)}$unit' : '${value.toStringAsFixed(1)}$unit',
-                style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold),
+                style: const TextStyle(color: AppColors.fg, fontSize: 11, fontWeight: FontWeight.bold),
               ),
             ],
           ),
@@ -297,7 +298,7 @@ class _HardwarePageState extends State<HardwarePage> {
             borderRadius: BorderRadius.circular(3),
             child: LinearProgressIndicator(
               value: pct,
-              backgroundColor: const Color(0xFF2A475E),
+              backgroundColor: AppColors.sec,
               valueColor: AlwaysStoppedAnimation(color),
               minHeight: 6,
             ),
@@ -313,8 +314,8 @@ class _HardwarePageState extends State<HardwarePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: Color(0xFF8F98A0), fontSize: 11)),
-          Text(value, style: const TextStyle(color: Colors.white, fontSize: 11)),
+          Text(label, style: const TextStyle(color: AppColors.muted, fontSize: 11)),
+          Text(value, style: const TextStyle(color: AppColors.fg, fontSize: 11)),
         ],
       ),
     );

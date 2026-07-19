@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../models/game.dart';
 import '../models/achievement.dart';
 import '../services/websocket_service.dart';
+import '../theme/app_colors.dart';
 
 class GameDetailPage extends StatefulWidget {
   final Game game;
@@ -47,30 +48,30 @@ class _GameDetailPageState extends State<GameDetailPage> {
     final total = _achievements.length;
 
     return Scaffold(
-      backgroundColor: const Color(0xFF161719),
+      backgroundColor: AppColors.bg,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
             expandedHeight: 200,
             pinned: true,
-            backgroundColor: const Color(0xFF1B2838),
+            backgroundColor: AppColors.card,
             flexibleSpace: FlexibleSpaceBar(
               title: Text(
                 widget.game.name,
-                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: AppColors.fg),
               ),
               background: widget.game.coverImage.isNotEmpty
                   ? Image.network(
                       widget.game.coverImage,
                       fit: BoxFit.cover,
                       errorBuilder: (_, __, ___) => Container(
-                        color: const Color(0xFF2A475E),
-                        child: const Icon(Icons.gamepad, size: 60, color: Color(0xFF8F98A0)),
+                        color: AppColors.sec,
+                        child: const Icon(Icons.gamepad, size: 60, color: AppColors.muted),
                       ),
                     )
                   : Container(
-                      color: const Color(0xFF2A475E),
-                      child: const Icon(Icons.gamepad, size: 60, color: Color(0xFF8F98A0)),
+                      color: AppColors.sec,
+                      child: const Icon(Icons.gamepad, size: 60, color: AppColors.muted),
                     ),
             ),
           ),
@@ -90,7 +91,7 @@ class _GameDetailPageState extends State<GameDetailPage> {
                         ),
                         child: Text(
                           widget.game.platformBadge,
-                          style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                          style: const TextStyle(color: AppColors.fg, fontWeight: FontWeight.bold),
                         ),
                       ),
                       if (widget.game.genre.isNotEmpty) ...[
@@ -98,12 +99,12 @@ class _GameDetailPageState extends State<GameDetailPage> {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF2A475E),
+                            color: AppColors.sec,
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
                             widget.game.genre,
-                            style: const TextStyle(color: Color(0xFF8F98A0)),
+                            style: const TextStyle(color: AppColors.muted),
                           ),
                         ),
                       ],
@@ -123,7 +124,7 @@ class _GameDetailPageState extends State<GameDetailPage> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('Lancando ${widget.game.name}...'),
-                            backgroundColor: const Color(0xFF107C10),
+                            backgroundColor: AppColors.pri,
                           ),
                         );
                       },
@@ -133,8 +134,8 @@ class _GameDetailPageState extends State<GameDetailPage> {
                         style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                       ),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF66C0F4),
-                        foregroundColor: Colors.white,
+                        backgroundColor: AppColors.pri,
+                        foregroundColor: AppColors.fg,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -144,12 +145,12 @@ class _GameDetailPageState extends State<GameDetailPage> {
                   const SizedBox(height: 24),
                   Row(
                     children: [
-                      const Icon(Icons.emoji_events, color: Color(0xFFE8A735), size: 20),
+                      const Icon(Icons.emoji_events, color: AppColors.warn, size: 20),
                       const SizedBox(width: 8),
-                      Text(
+                      const Text(
                         'Conquistas',
                         style: TextStyle(
-                          color: const Color(0xFFE8A735),
+                          color: AppColors.warn,
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
@@ -158,7 +159,7 @@ class _GameDetailPageState extends State<GameDetailPage> {
                         const Spacer(),
                         Text(
                           '$achieved / $total',
-                          style: const TextStyle(color: Color(0xFF8F98A0), fontSize: 13),
+                          style: const TextStyle(color: AppColors.muted, fontSize: 13),
                         ),
                       ],
                     ],
@@ -168,20 +169,20 @@ class _GameDetailPageState extends State<GameDetailPage> {
                     const Center(
                       child: Padding(
                         padding: EdgeInsets.all(20),
-                        child: CircularProgressIndicator(color: Color(0xFFE8A735)),
+                        child: CircularProgressIndicator(color: AppColors.warn),
                       ),
                     )
                   else if (_achievements.isEmpty)
                     Container(
                       padding: const EdgeInsets.all(16),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF1B2838),
+                        color: AppColors.card,
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: const Center(
                         child: Text(
                           'Nenhuma conquista encontrada',
-                          style: TextStyle(color: Color(0xFF8F98A0)),
+                          style: TextStyle(color: AppColors.muted),
                         ),
                       ),
                     )
@@ -201,9 +202,9 @@ class _GameDetailPageState extends State<GameDetailPage> {
       margin: const EdgeInsets.only(bottom: 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xFF1B2838),
+        color: AppColors.card,
         borderRadius: BorderRadius.circular(8),
-        border: ach.achieved ? Border.all(color: const Color(0xFFE8A735).withOpacity(0.3)) : null,
+        border: ach.achieved ? Border.all(color: AppColors.priRing) : null,
       ),
       child: Row(
         children: [
@@ -215,12 +216,12 @@ class _GameDetailPageState extends State<GameDetailPage> {
                     ach.displayIcon,
                     errorBuilder: (_, __, ___) => Icon(
                       ach.achieved ? Icons.emoji_events : Icons.emoji_events_outlined,
-                      color: ach.achieved ? const Color(0xFFE8A735) : const Color(0xFF8F98A0),
+                      color: ach.achieved ? AppColors.warn : AppColors.muted,
                     ),
                   )
                 : Icon(
                     ach.achieved ? Icons.emoji_events : Icons.emoji_events_outlined,
-                    color: ach.achieved ? const Color(0xFFE8A735) : const Color(0xFF8F98A0),
+                    color: ach.achieved ? AppColors.warn : AppColors.muted,
                   ),
           ),
           const SizedBox(width: 12),
@@ -231,7 +232,7 @@ class _GameDetailPageState extends State<GameDetailPage> {
                 Text(
                   ach.name.isNotEmpty ? ach.name : ach.apiname,
                   style: TextStyle(
-                    color: ach.achieved ? Colors.white : const Color(0xFF8F98A0),
+                    color: ach.achieved ? AppColors.fg : AppColors.muted,
                     fontSize: 13,
                     fontWeight: FontWeight.bold,
                   ),
@@ -240,7 +241,7 @@ class _GameDetailPageState extends State<GameDetailPage> {
                   Text(
                     ach.description,
                     style: TextStyle(
-                      color: ach.achieved ? const Color(0xFF8F98A0) : Colors.grey.shade600,
+                      color: ach.achieved ? AppColors.muted70 : AppColors.muted,
                       fontSize: 11,
                     ),
                     maxLines: 2,
@@ -256,8 +257,8 @@ class _GameDetailPageState extends State<GameDetailPage> {
                             borderRadius: BorderRadius.circular(3),
                             child: LinearProgressIndicator(
                               value: ach.progressPercentage / 100,
-                              backgroundColor: const Color(0xFF2A475E),
-                              valueColor: const AlwaysStoppedAnimation(Color(0xFFE8A735)),
+                              backgroundColor: AppColors.sec,
+                              valueColor: const AlwaysStoppedAnimation(AppColors.warn),
                               minHeight: 4,
                             ),
                           ),
@@ -265,7 +266,7 @@ class _GameDetailPageState extends State<GameDetailPage> {
                         const SizedBox(width: 8),
                         Text(
                           '${ach.progress}/${ach.maxProgress}',
-                          style: const TextStyle(color: Color(0xFF8F98A0), fontSize: 10),
+                          style: const TextStyle(color: AppColors.muted, fontSize: 10),
                         ),
                       ],
                     ),
@@ -274,9 +275,9 @@ class _GameDetailPageState extends State<GameDetailPage> {
             ),
           ),
           if (ach.achieved)
-            const Icon(Icons.check_circle, color: Color(0xFFE8A735), size: 20)
+            const Icon(Icons.check_circle, color: AppColors.warn, size: 20)
           else
-            Icon(Icons.lock_outline, color: Colors.grey.shade600, size: 20),
+            const Icon(Icons.lock_outline, color: AppColors.muted70, size: 20),
         ],
       ),
     );
@@ -285,11 +286,11 @@ class _GameDetailPageState extends State<GameDetailPage> {
   Color _platformColor(String platform) {
     switch (platform.toLowerCase()) {
       case 'steam':
-        return const Color(0xFF1B2838);
+        return AppColors.steamBg;
       case 'xbox':
-        return const Color(0xFF107C10);
+        return AppColors.xboxBg;
       default:
-        return const Color(0xFF66C0F4);
+        return AppColors.pri10;
     }
   }
 
@@ -299,8 +300,8 @@ class _GameDetailPageState extends State<GameDetailPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: Color(0xFF8F98A0), fontSize: 13)),
-          Text(value, style: const TextStyle(color: Colors.white, fontSize: 13)),
+          Text(label, style: const TextStyle(color: AppColors.muted, fontSize: 13)),
+          Text(value, style: const TextStyle(color: AppColors.fg, fontSize: 13)),
         ],
       ),
     );
