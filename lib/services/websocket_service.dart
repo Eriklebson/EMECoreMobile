@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../models/hardware_stats.dart';
@@ -32,7 +34,10 @@ class WebSocketService {
   bool _welcomeReceived = false;
   int _reconnectAttempts = 0;
   int _connectGeneration = 0;
-  static const int maxReconnectAttempts = 3;
+  static const int maxReconnectAttempts = 5;
+  static const _hostKey = 'last_host';
+  static const _portKey = 'last_port';
+  List<Game> _cachedGames = [];
 
   Stream<ConnectionStatus> get status => _statusController.stream;
   Stream<HardwareStats> get hardwareStats => _hardwareController.stream;
@@ -41,11 +46,13 @@ class WebSocketService {
   Stream<List<Achievement>> get achievements => _achievementController.stream;
   ConnectionStatus _currentStatus = ConnectionStatus.disconnected;
   ConnectionStatus get currentStatus => _currentStatus;
+  List<Game> get lastGames => _cachedGames;
 
   void connect(String host, int port) {
     _shouldReconnect = false;
     _pingTimer?.cancel();
     _reconnectTimer?.cancel();
+    _cachedGames = [];
     if (_channel != null) {
       try { _channel!.sink.close(); } catch (_) {}
       _channel = null;
@@ -116,6 +123,7 @@ class WebSocketService {
     try {
       final json = jsonDecode(data.toString());
       final type = json['type'];
+      debugPrint('[WS] Received type=$type');
 
       switch (type) {
         case 'welcome':
@@ -123,6 +131,8 @@ class WebSocketService {
           _hasConnectedOnce = true;
           _reconnectAttempts = 0;
           _connectTimeout?.cancel();
+          _shouldReconnect = true;
+          _saveLastConnection();
           _updateStatus(ConnectionStatus.connected);
           _startPing();
           break;
@@ -134,6 +144,8 @@ class WebSocketService {
                   ?.map((g) => Game.fromJson(g))
                   .toList() ??
               [];
+          _cachedGames = list;
+          debugPrint('[WS] Received game_list with ${list.length} games');
           _gamesController.add(list);
           break;
         case 'achievements':
@@ -172,8 +184,11 @@ class WebSocketService {
 
   void _send(Map<String, dynamic> message) {
     try {
+      debugPrint('[WS] Sending: ${jsonEncode(message)}');
       _channel?.sink.add(jsonEncode(message));
-    } catch (_) {}
+    } catch (e) {
+      debugPrint('[WS] Send error: $e');
+    }
   }
 
   void requestHardwareStats() {
@@ -207,6 +222,34 @@ class WebSocketService {
   void _updateStatus(ConnectionStatus status) {
     _currentStatus = status;
     _statusController.add(status);
+  }
+
+  Future<void> _saveLastConnection() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_hostKey, _host);
+    await prefs.setInt(_portKey, _port);
+  }
+
+  Future<String?> getLastHost() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_hostKey);
+  }
+
+  Future<int> getLastPort() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt(_portKey) ?? 8181;
+  }
+
+  Future<bool> hasLastConnection() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.containsKey(_hostKey);
+  }
+
+  Future<void> tryAutoReconnect() async {
+    final host = await getLastHost();
+    if (host == null || host.isEmpty) return;
+    final port = await getLastPort();
+    connect(host, port);
   }
 
   void dispose() {

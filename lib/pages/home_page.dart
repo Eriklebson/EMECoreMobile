@@ -17,12 +17,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _currentIndex = 0;
+  int _currentIndex = 1;
   late StreamSubscription _statusSub;
+  late final List<Widget> _pages;
 
   @override
   void initState() {
     super.initState();
+    _pages = [
+      HardwarePage(wsService: widget.wsService),
+      GamesPage(wsService: widget.wsService),
+    ];
     _statusSub = widget.wsService.status.listen((s) {
       if (s == ConnectionStatus.disconnected && mounted) {
         Navigator.pushReplacement(
@@ -74,9 +79,10 @@ class _HomePageState extends State<HomePage> {
             ),
           ],
         ),
-        body: _currentIndex == 0
-            ? HardwarePage(wsService: widget.wsService)
-            : GamesPage(wsService: widget.wsService),
+        body: IndexedStack(
+          index: _currentIndex,
+          children: _pages,
+        ),
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
           onTap: (i) => setState(() => _currentIndex = i),

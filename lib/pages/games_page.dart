@@ -17,6 +17,7 @@ class GamesPage extends StatefulWidget {
 
 class _GamesPageState extends State<GamesPage> {
   List<Game> _games = [];
+  bool _isLoading = true;
   String _filter = 'Todos';
   String _search = '';
   late StreamSubscription _sub;
@@ -24,10 +25,18 @@ class _GamesPageState extends State<GamesPage> {
   @override
   void initState() {
     super.initState();
+    final cached = widget.wsService.lastGames;
+    if (cached.isNotEmpty) {
+      _games = cached;
+      _isLoading = false;
+    }
     _sub = widget.wsService.games.listen((g) {
-      if (mounted) setState(() => _games = g);
+      debugPrint('[GAMES] Received ${g.length} games');
+      if (mounted) setState(() { _games = g; _isLoading = false; });
     });
-    widget.wsService.requestGames();
+    if (cached.isEmpty) {
+      widget.wsService.requestGames();
+    }
   }
 
   @override
@@ -89,11 +98,15 @@ class _GamesPageState extends State<GamesPage> {
         ),
         const SizedBox(height: 8),
         Expanded(
-          child: filtered.isEmpty
+          child: _isLoading
               ? const Center(
-                  child: Text('Nenhum jogo encontrado', style: TextStyle(color: AppColors.muted)),
+                  child: CircularProgressIndicator(color: AppColors.pri, strokeWidth: 2),
                 )
-              : GridView.builder(
+              : filtered.isEmpty
+                  ? const Center(
+                      child: Text('Nenhum jogo encontrado', style: TextStyle(color: AppColors.muted)),
+                    )
+                  : GridView.builder(
                   padding: const EdgeInsets.all(12),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
