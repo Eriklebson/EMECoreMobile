@@ -18,7 +18,8 @@
 | Recurso | Descricao | Status |
 |---------|-----------|--------|
 | **Auto-Discovery** | Detecta PCs na rede automaticamente via UDP broadcast — sem digitar IP | ✅ |
-| **Monitor de Hardware** | CPU, GPU, RAM, FPS, disco, rede, placa-mae em tempo real | ✅ |
+| **Monitor de Hardware** | CPU, GPU, RAM, FPS, disco, rede e placa-mae em cards recolhiveis | ✅ |
+| **Monitor de Gamepad** | Exibe botoes, gatilhos, analogicos e bateria do controle em tempo real | ✅ |
 | **Biblioteca de Jogos** | Grid com capas Steam/Twitch, busca por nome, filtros por plataforma | ✅ |
 | **Lancamento Remoto** | Inicie jogos do celular direto no PC | ✅ |
 | **Conquistas** | Visualize conquistas e progresso dos jogos | ✅ |
@@ -124,6 +125,7 @@ Comunicacao JSON bidirecional entre desktop (servidor) e mobile (cliente).
 |------|-----------|
 | `welcome` | Mensagem de boas-vindas apos conexao |
 | `hardware_stats` | Stats de hardware a cada 1s |
+| `gamepad_state` | Estado de botoes, gatilhos e analogicos quando o controle muda |
 | `game_list` | Lista de jogos com capas |
 | `achievements` | Conquistas de um jogo |
 | `game_launched` | Confirmacao de lancamento |
@@ -187,6 +189,9 @@ Dark theme alinhado com EMECore Desktop:
 
 | Versao | Data | Mudanca |
 |--------|------|---------|
+| 1.2.0 | 21/07/2026 | Monitor de hardware reformulado com cards recolhiveis, detalhes expansiveis e novo modulo de gamepad em tempo real |
+| 1.1.2 | 20/07/2026 | Correcao da reconexao automatica quando havia porta salva incorreta |
+| 1.1.1 | 20/07/2026 | Abas preservadas com IndexedStack, cache da biblioteca e indicador de carregamento |
 | 1.1.0 | 18/07/2026 | Paleta de cores alinhada com EMECore Desktop (Design.cs + MonitorWindow.cs), cores centralizadas em AppColors |
 | 1.0.2 | 18/07/2026 | Timer periodico de 1s para hardware monitor em tempo real, correcao de dados RAM/rede aparecendo e sumindo |
 | 1.0.1 | 18/07/2026 | HTTP cleartext para redes locais (network_security_config.xml), correcao de capas nao baixando via HTTP |

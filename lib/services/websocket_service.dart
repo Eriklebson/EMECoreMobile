@@ -23,6 +23,8 @@ class WebSocketService {
       StreamController<String>.broadcast();
   final StreamController<List<Achievement>> _achievementController =
       StreamController<List<Achievement>>.broadcast();
+  final StreamController<GamepadState> _gamepadStateController =
+      StreamController<GamepadState>.broadcast();
 
   Timer? _pingTimer;
   Timer? _reconnectTimer;
@@ -44,6 +46,7 @@ class WebSocketService {
   Stream<List<Game>> get games => _gamesController.stream;
   Stream<String> get errors => _errorController.stream;
   Stream<List<Achievement>> get achievements => _achievementController.stream;
+  Stream<GamepadState> get gamepadState => _gamepadStateController.stream;
   ConnectionStatus _currentStatus = ConnectionStatus.disconnected;
   ConnectionStatus get currentStatus => _currentStatus;
   List<Game> get lastGames => _cachedGames;
@@ -171,6 +174,9 @@ class WebSocketService {
           break;
         case 'game_launched':
           break;
+        case 'gamepad_state':
+          _gamepadStateController.add(GamepadState.fromJson(json));
+          break;
         case 'error':
           _errorController.add(json['message'] ?? 'Erro desconhecido');
           break;
@@ -270,5 +276,6 @@ class WebSocketService {
     _gamesController.close();
     _errorController.close();
     _achievementController.close();
+    _gamepadStateController.close();
   }
 }

@@ -7,6 +7,7 @@ class HardwareStats {
   final NetworkStats network;
   final MotherboardStats motherboard;
   final List<FanInfo> fans;
+  final List<GamepadInfo> gamepads;
   final int timestamp;
 
   HardwareStats({
@@ -18,6 +19,7 @@ class HardwareStats {
     required this.network,
     required this.motherboard,
     required this.fans,
+    required this.gamepads,
     required this.timestamp,
   });
 
@@ -32,6 +34,7 @@ class HardwareStats {
       network: NetworkStats.fromJson(data['network'] ?? {}),
       motherboard: MotherboardStats.fromJson(data['motherboard'] ?? {}),
       fans: (data['fans'] as List?)?.map((f) => FanInfo.fromJson(f)).toList() ?? [],
+      gamepads: (data['gamepads'] as List?)?.map((g) => GamepadInfo.fromJson(g)).toList() ?? [],
       timestamp: json['timestamp'] ?? 0,
     );
   }
@@ -246,4 +249,86 @@ class FanInfo {
         rpm: (json['rpm'] ?? 0).toDouble(),
         dutyPercent: (json['dutyPercent'] ?? 0).toDouble(),
       );
+}
+
+class GamepadInfo {
+  final String name;
+  final bool isConnected;
+  final String batteryType;
+  final String batteryLevel;
+
+  GamepadInfo({
+    required this.name,
+    required this.isConnected,
+    required this.batteryType,
+    required this.batteryLevel,
+  });
+
+  factory GamepadInfo.fromJson(Map<String, dynamic> json) => GamepadInfo(
+        name: json['name'] ?? 'Gamepad',
+        isConnected: json['isConnected'] ?? false,
+        batteryType: json['batteryType'] ?? 'Disconnected',
+        batteryLevel: json['batteryLevel'] ?? 'Empty',
+      );
+}
+
+class GamepadState {
+  final int buttons;
+  final int leftTrigger;
+  final int rightTrigger;
+  final int thumbLX;
+  final int thumbLY;
+  final int thumbRX;
+  final int thumbRY;
+  final int packetNumber;
+
+  GamepadState({
+    required this.buttons,
+    required this.leftTrigger,
+    required this.rightTrigger,
+    required this.thumbLX,
+    required this.thumbLY,
+    required this.thumbRX,
+    required this.thumbRY,
+    required this.packetNumber,
+  });
+
+  bool isPressed(int button) => (buttons & button) != 0;
+
+  factory GamepadState.empty() => GamepadState(
+        buttons: 0,
+        leftTrigger: 0,
+        rightTrigger: 0,
+        thumbLX: 0,
+        thumbLY: 0,
+        thumbRX: 0,
+        thumbRY: 0,
+        packetNumber: 0,
+      );
+
+  factory GamepadState.fromJson(Map<String, dynamic> json) => GamepadState(
+        buttons: json['buttons'] ?? 0,
+        leftTrigger: json['leftTrigger'] ?? 0,
+        rightTrigger: json['rightTrigger'] ?? 0,
+        thumbLX: json['thumbLX'] ?? 0,
+        thumbLY: json['thumbLY'] ?? 0,
+        thumbRX: json['thumbRX'] ?? 0,
+        thumbRY: json['thumbRY'] ?? 0,
+        packetNumber: json['packetNumber'] ?? 0,
+      );
+
+  static const int dpadUp = 0x0001;
+  static const int dpadDown = 0x0002;
+  static const int dpadLeft = 0x0004;
+  static const int dpadRight = 0x0008;
+  static const int start = 0x0010;
+  static const int back = 0x0020;
+  static const int leftThumb = 0x0040;
+  static const int rightThumb = 0x0080;
+  static const int leftShoulder = 0x0100;
+  static const int rightShoulder = 0x0200;
+  static const int a = 0x1000;
+  static const int b = 0x2000;
+  static const int x = 0x4000;
+  static const int y = 0x8000;
 }

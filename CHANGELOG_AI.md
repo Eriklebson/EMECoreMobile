@@ -4,6 +4,34 @@ Relatório de desenvolvimento gerado por IA para o projeto EMECoreMobile.
 
 ---
 
+## v1.2.0+7 — 21/07/2026
+
+### Arquivos modificados
+- `lib/pages/hardware_page.dart` — monitor reorganizado em cards recolhíveis e detalhes expansíveis.
+- `lib/models/hardware_stats.dart` — modelos de informação e estado do gamepad.
+- `lib/services/websocket_service.dart` — recepção da mensagem `gamepad_state`.
+- `lib/widgets/gamepad_widget.dart` e `assets/gamepad/` — representação visual do controle.
+- `lib/pages/connection_page.dart` — tentativa automática de reconexão ao último desktop.
+- `pubspec.yaml`, `README.md` e `CHANGELOG_AI.md` — asset, versão e documentação atualizados.
+
+### Resumo
+O monitor mobile passa a apresentar mais informações em uma interface compacta e permite adicionar um módulo que acompanha o gamepad conectado ao desktop em tempo real.
+
+### Explicação detalhada
+- Cards de hardware podem ser recolhidos e seus detalhes expandidos.
+- Ventoinhas são agrupadas com CPU, GPU ou placa-mãe conforme o nome do sensor.
+- O módulo de controle recebe botões, gatilhos e analógicos pelo WebSocket.
+- Streams, timers e subscriptions são cancelados no descarte da tela.
+
+### Motivo
+Alinhar o monitor mobile ao nível de informação do desktop e disponibilizar o acompanhamento de periféricos sem acesso direto ao PC.
+
+### Possíveis impactos
+- O gamepad em tempo real requer o desktop `2.23.0.0` ou superior.
+- Em desktops antigos, o restante do monitor continua funcionando e o módulo de gamepad permanece sem atualização.
+
+---
+
 ## v1.1.2 — 20/07/2026
 
 ### Arquivos modificados

@@ -60,6 +60,21 @@ class _ConnectionPageState extends State<ConnectionPage> {
       if (mounted) setState(() {});
     });
     _discoveryService.start();
+    _tryAutoReconnect();
+  }
+
+  Future<void> _tryAutoReconnect() async {
+    final hasLast = await widget.wsService.hasLastConnection();
+    if (!hasLast) return;
+    final host = await widget.wsService.getLastHost();
+    final port = await widget.wsService.getLastPort();
+    if (host != null && mounted) {
+      setState(() {
+        _showError = false;
+        _errorMsg = '';
+      });
+      widget.wsService.connect(host, port);
+    }
   }
 
   @override
