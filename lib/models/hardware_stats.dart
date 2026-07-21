@@ -42,7 +42,8 @@ class HardwareStats {
 
 class CpuStats {
   final double usage;
-  final double temp;
+  final double coreTemp;
+  final double packageTemp;
   final double voltage;
   final double power;
   final String model;
@@ -52,7 +53,8 @@ class CpuStats {
 
   CpuStats({
     required this.usage,
-    required this.temp,
+    required this.coreTemp,
+    required this.packageTemp,
     required this.voltage,
     required this.power,
     required this.model,
@@ -63,7 +65,8 @@ class CpuStats {
 
   factory CpuStats.fromJson(Map<String, dynamic> json) => CpuStats(
         usage: (json['usage'] ?? 0).toDouble(),
-        temp: (json['temp'] ?? 0).toDouble(),
+        coreTemp: (json['coreTemp'] ?? json['temp'] ?? 0).toDouble(),
+        packageTemp: (json['packageTemp'] ?? json['temp'] ?? 0).toDouble(),
         voltage: (json['voltage'] ?? 0).toDouble(),
         power: (json['power'] ?? 0).toDouble(),
         model: json['model'] ?? 'N/A',

@@ -364,7 +364,8 @@ class _HardwarePageState extends State<HardwarePage> {
       return name.contains('cpu') || name.contains('pump') || name.contains('aio');
     }).toList();
     final usage = _usageColor(cpu.usage, AppColors.cpu);
-    final temp = _tempColor(cpu.temp);
+    final coreTempColor = _tempColor(cpu.coreTemp);
+    final packageTempColor = _tempColor(cpu.packageTemp);
 
     if (isCollapsed) {
       return _cardContainer(
@@ -385,7 +386,7 @@ class _HardwarePageState extends State<HardwarePage> {
             const SizedBox(height: 8),
             _compactRow([
               _compactItem('USO', '${cpu.usage.toStringAsFixed(1)}%', usage),
-              _compactItem('CORE', '${cpu.temp.toStringAsFixed(0)}°C', temp),
+              _compactItem('CORE', '${cpu.coreTemp.toStringAsFixed(0)}°C', coreTempColor),
               _compactItem('CLOCK', '${cpu.clockMhz.toStringAsFixed(0)} MHz', Colors.white),
             ]),
           ],
@@ -435,7 +436,7 @@ class _HardwarePageState extends State<HardwarePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _metricLabel('CORE'),
-                  _metricValue('${cpu.temp.toStringAsFixed(0)}°', temp, fontSize: 18),
+                  _metricValue('${cpu.coreTemp.toStringAsFixed(0)}°', coreTempColor, fontSize: 18),
                 ],
               ),
               const SizedBox(width: 24),
@@ -443,7 +444,7 @@ class _HardwarePageState extends State<HardwarePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _metricLabel('PKG'),
-                  _metricValue('${cpu.temp.toStringAsFixed(0)}°', temp, fontSize: 18),
+                  _metricValue('${cpu.packageTemp.toStringAsFixed(0)}°', packageTempColor, fontSize: 18),
                 ],
               ),
             ],

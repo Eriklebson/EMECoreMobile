@@ -4,6 +4,51 @@ Relatório de desenvolvimento gerado por IA para o projeto EMECoreMobile.
 
 ---
 
+## v1.2.2+9 — Correção das temperaturas Core e Package — 21/07/2026
+
+### Arquivos modificados
+- `lib/models/hardware_stats.dart` — adicionados campos separados para Core e Package, com compatibilidade para servidores antigos.
+- `lib/pages/hardware_page.dart` — cada indicador passa a usar sua própria temperatura e cor.
+- `README.md` — descrição do monitor atualizada.
+- `pubspec.yaml` — versão atualizada para `1.2.2+9`.
+- `../EMECore/src/EMECore.Hardware/Services/MobileServerService.cs` — protocolo passa a enviar `coreTemp` e `packageTemp`.
+- `../EMECore/docs/hardware-project.md` — contrato do protocolo documentado.
+
+### Resumo
+O card de CPU do aplicativo mobile deixa de repetir a temperatura de Package nos indicadores `CORE` e `PKG`.
+
+### Explicação detalhada
+O servidor enviava somente `temp`, preenchido com a temperatura de Package. A interface Flutter reutilizava esse mesmo campo nas duas posições. O protocolo agora transmite os dois sensores separadamente, e o modelo mobile mantém fallback para `temp` ao se conectar a versões antigas do desktop.
+
+### Motivo
+Manter o monitor mobile consistente com os valores corretos já exibidos pelo desktop.
+
+### Possíveis impactos
+- O valor de `CORE` pode diferir de `PKG`, conforme os sensores reais da CPU.
+- Clientes mobile antigos continuam funcionando porque o campo legado `temp` foi preservado.
+
+---
+
+## v1.2.1+8 — 21/07/2026
+
+### Arquivos modificados
+- `lib/widgets/gamepad_widget.dart` — correção da projeção vertical dos analógicos esquerdo e direito.
+- `pubspec.yaml` — versão atualizada para `1.2.1+8`.
+- `README.md` e `CHANGELOG_AI.md` — documentação da correção.
+- `../docs/arquitetura/05-protocolo-mobile.md` — orientação sobre a conversão do eixo Y do XInput para a tela.
+
+### Resumo
+Os dois analógicos agora se movem na mesma direção física do controle no monitor mobile.
+
+### Explicação detalhada
+O desktop transmite os eixos do XInput sem alteração, onde valores positivos de Y representam movimento para cima. No sistema de coordenadas da interface Flutter, valores positivos de Y movem o elemento para baixo. A projeção visual passou a subtrair o deslocamento vertical, assim como já ocorre no monitor desktop.
+
+### Motivo
+Ao empurrar qualquer analógico para baixo, o indicador visual se deslocava para cima, e vice-versa.
+
+### Possíveis impactos
+A mudança afeta somente a posição visual dos indicadores dos analógicos. Os valores recebidos pelo WebSocket, os botões, os gatilhos e o protocolo permanecem inalterados.
+
 ## v1.2.0+7 — 21/07/2026
 
 ### Arquivos modificados
