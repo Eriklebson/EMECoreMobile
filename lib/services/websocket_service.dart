@@ -103,6 +103,8 @@ class WebSocketService {
                 Timer(Duration(seconds: 3 * _reconnectAttempts), () {
               if (_shouldReconnect) _doConnect(gen);
             });
+          } else if (!_hasConnectedOnce) {
+            _clearLastConnection();
           }
         },
         onError: (error) {
@@ -110,6 +112,9 @@ class WebSocketService {
           _connectTimeout?.cancel();
           _errorController.add('Erro de conexao: $error');
           _updateStatus(ConnectionStatus.disconnected);
+          if (!_hasConnectedOnce) {
+            _clearLastConnection();
+          }
         },
       );
     } catch (e) {
@@ -243,6 +248,12 @@ class WebSocketService {
   Future<bool> hasLastConnection() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.containsKey(_hostKey);
+  }
+
+  Future<void> _clearLastConnection() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove(_hostKey);
+    await prefs.remove(_portKey);
   }
 
   Future<void> tryAutoReconnect() async {

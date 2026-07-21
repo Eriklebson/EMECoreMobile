@@ -4,6 +4,21 @@ Relatório de desenvolvimento gerado por IA para o projeto EMECoreMobile.
 
 ---
 
+## v1.1.2 — 20/07/2026
+
+### Arquivos modificados
+- `lib/services/websocket_service.dart` — Novo metodo `_clearLastConnection()`; limpa host/porta salvos quando auto-reconnect falha (nunca conectou com sucesso)
+
+### O que mudou
+- Correcao de bug: reconexao automatica tentava porta salva incorreta (ex: 49500) infinitamente
+- Quando a primeira conexao falha, `_clearLastConnection()` remove dados do SharedPreferences
+- Evita loop de tentativas na porta errada
+
+### Motivo
+- SharedPreferences mantinha porta 49500 de sessao anterior, causando `Connection Refused` em toda inicializacao
+
+---
+
 ## v1.1.0 — 18/07/2026
 
 ### Arquivos modificados
