@@ -214,7 +214,7 @@ class _GamepadWidgetState extends State<GamepadWidget> {
     return [
       Positioned(
         left: lsPos[0] * w + lsNormX * maxOffset - stickRadius,
-        top: lsPos[1] * h + lsNormY * maxOffset - stickRadius,
+        top: lsPos[1] * h - lsNormY * maxOffset - stickRadius,
         width: stickRadius * 2,
         height: stickRadius * 2,
         child: Container(
@@ -232,7 +232,7 @@ class _GamepadWidgetState extends State<GamepadWidget> {
       ),
       Positioned(
         left: rsPos[0] * w + rsNormX * maxOffset - stickRadius,
-        top: rsPos[1] * h + rsNormY * maxOffset - stickRadius,
+        top: rsPos[1] * h - rsNormY * maxOffset - stickRadius,
         width: stickRadius * 2,
         height: stickRadius * 2,
         child: Container(
